@@ -1,0 +1,210 @@
+body {
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f7f7f7;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+#banner {
+  background-color: #f3fafe;
+  overflow: auto;
+  height: 20%;
+}
+
+#welcome {
+  color: darkslategrey;
+  width: 20%;
+  float: right;
+  margin-top: 40px;
+}
+
+#banner-left {
+  color: blue;
+  width: 40%;
+  padding-left: 10%;
+  height: 110px;
+  display: inline-block;
+  position: relative;
+}
+img {
+  height: 100px;
+  width: auto;
+  float: left;
+  margin-right: 5px;
+}
+acronym {
+  height: 100px;
+  width: auto;
+  float: left;
+}
+
+#page-home {
+  margin-right: auto;
+  margin-left: auto;
+  box-sizing: border-box;
+  display: block;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+#page-home > h1 {
+  color: #15417a;
+  padding: 40px 30px;
+  background-color: #aac7f0;
+  background-image: url(img/background.png);
+  background-repeat: no-repeat;
+  background-position-x: right;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  margin-right: 20px;
+  margin-left: 20px;
+  margin-block-start: 0.67em;
+  margin-block-end: 0.67em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+nav {
+  background: #aac7f0;
+  list-style-type: none;
+  text-align: center;
+  height: 60px;
+  padding: 0;
+}
+/* 
+nav ul li {
+  display: inline-block;
+  font-size: 40px;
+  padding: 20px;
+} */
+
+/* ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #b0c4de;
+} */
+
+/*Menu items*/
+.text-link {
+  display: inline-block;
+  color: #15417a;
+  text-align: center;
+  padding: 14px 60px;
+  text-decoration: none;
+  font-size: 20px;
+  vertical-align: middle;
+  width: 120px;
+  height: 30px;
+  border: 1px solid #aac7f0;
+  background: #aac7f0;
+}
+
+#box {
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+/* Change the link color to #111 (black) on hover */
+.text-link a:hover {
+  background-color: #111;
+}
+
+label {
+  margin-left: 20px;
+  width: 200px;
+}
+
+ul.DataUploadChoice {
+  margin: 20px 0px 20px 60px;
+  list-style: square;
+}
+
+ul.DataUploadChoice li {
+  margin: 20px 0px 20px 60px;
+}
+
+button #DownloadPerso {
+  display: inline-block;
+}
+
+button[type="submit"] {
+  text-align: center;
+  background-color: #facb21;
+  font-weight: bold;
+  font: 400 13.3333px Arial;
+  border-radius: 0;
+  white-space: nowrap;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857;
+  user-select: none;
+  width: auto;
+  margin-top: 10px;
+  margin-left: 20px;
+  height: auto;
+}
+
+button[disabled] {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+button#VisualizeSurvey {
+  margin-left: 40%;
+}
+
+input[type="file"] {
+  border: 10px solid #aac7f0;
+  border-radius: 20px;
+  background: #aac7f0;
+  margin-left: 30%;
+
+  display: block;
+  margin-bottom: 10px;
+}
+
+input[type="text"] {
+  width: 20%;
+  line-height: 30px;
+  display: inline-block;
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  color: #555;
+  background-color: none;
+  background-image: none;
+  border: 1px solid #aac7f0;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  box-sizing: border-box;
+  margin-left: 20px;
+}
+
+.errorText {
+  color: darkred;
+  font-style: italic;
+  margin-left: 20px;
+}
+
+@media (max-width: 700px) {
+  nav {
+    margin-bottom: 5em;
+  }
+}
