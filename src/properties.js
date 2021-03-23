@@ -5,10 +5,10 @@ export const parameters = {
 
 
 
-export const pathCawiCati = '/survey';
+export const pathCawiCati = '/survey-cawi-capi';
 
-export const pathPapi = '/survey-pdf';
+export const pathPapi = '/survey-papi';
 
-export const pathPersoPapi = '/perso-paper';
+export const pathPersoPapi = '/perso-papi';
 
-export const pathPersoCawiCati = '/perso-webf2f';
+export const pathPersoCawiCati = '/perso-cawi-capi';
