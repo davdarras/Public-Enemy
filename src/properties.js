@@ -1,6 +1,6 @@
 export const parameters = {
-  DataFileType: { papi: "xml", cawi: "xml", capi: "json" },
-  ModelFileType: { papi: "fo", cawi: "xhtml", capi: "json" }
+  DataFileType: { papi: "xml", cawi: "xml", capi: "json",  cawiv2: "xml" },
+  ModelFileType: { papi: "fo", cawi: "xhtml", capi: "json", cawiv2: "json" }
 };
 
 

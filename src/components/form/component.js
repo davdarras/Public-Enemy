@@ -13,6 +13,8 @@ class Form extends React.Component {
 			urlApi: '',
 			dataFile: null,
 			modelFile: null,
+			metadataFile: null,
+			treatmentFile: null,
 			displayErrorData: false,
 			displayErrorModel: false,
 			
@@ -37,7 +39,7 @@ class Form extends React.Component {
 		const myFiles = new FormData();
 		myFiles.append('survey', this.state.surveyName);
 		myFiles.append('data', this.state.dataFile);
-		myFiles.append('model', this.state.modelFile);
+		myFiles.append("model", this.state.modelFile);
 
 		const config = { headers: { 'Content-Type': 'multipart/form-data' } };
 		axios({
@@ -141,113 +143,142 @@ class Form extends React.Component {
 		
 		const { dataFile, modelFile, displayErrorData, displayErrorModel, dataFileType, modelFileType, surveyName } = this.state;
 		return (
-			<React.Fragment>
-			<div id="box">
-				<form id="filesend">
-				<label>
-						Saisir l'acronyme de l'enquête :
-						<input
-							type="text"
-							id="SurveyName"
-							placeholder="Ex:EEC19,..."
-							value={this.state.surveyName} 
-							onChange={this.onChange}
-							required
-						/>
-						
-						</label>
+      <React.Fragment>
+        <div id="box">
+          <form id="filesend">
+            <label>
+              Saisir l'acronyme de l'enquête :
+              <input
+                type="text"
+                id="SurveyName"
+                placeholder="Ex:EEC19,..."
+                value={this.state.surveyName}
+                onChange={this.onChange}
+                required
+              />
+            </label>
 
-						{surveyName==="" && (dataFile !==null || modelFile!=null) ? (
-						<div className="errorText">
-							Merci de renseigner un nom d'enquête pour débloquer l'accés aux différentes options
-						</div>
-					) : null}
-					<br />
-					<br />	
-				<label>
-						Charger un modèle de données (au format {modelFileType})
-						<input
-							type="file"
-							id="ModelFile"
-							
-							accept={`.${modelFileType}`}
-							onChange={e => this.handleFile(e, 'model')}
-							required
-						/>
-					</label>
-					{modelFile !== null && displayErrorModel === true ? (
-						<div className="errorText">
-							Le fichier de modèle sélectionné est au format{' '}
-							<b>
-								<u>{this.extractExtension(modelFile)}</u>
-							</b>{' '}
-							mais le format{' '}
-							<b>
-								<u>{modelFileType}</u>
-							</b>{' '}
-							est attendu.
-						</div>
-					) : null}
-					
-					
-					<br />
-					<br />
-					<label>
-						Charger un fichier de données (au format {dataFileType})
-						</label>
-						<br></br>
-						<ul className="DataUploadChoice">
-							<li> En téléchargeant un fichier de personnalisation
-								<button
-						type="submit"
-						id="DownloadPerso"
-						disabled={!(!displayErrorModel && modelFile !== null && surveyName!=="")}
-						onClick={e => this.onDownload(e)}	>
-						Télécharger un fichier de personnalisation
-						</button>
-						</li>
-						<li>Directement depuis votre disque local
-						<input
-							type="file"
-							id="DataFile"
-							accept={`.${dataFileType}`}
-							onChange={e => this.handleFile(e, 'data')}
-							required
-						/>
-						</li>
-						</ul>
-					
-					{dataFile !== null && displayErrorData === true ? (
-						<div className="errorText">
-							Le fichier de données sélectionné est au format{' '}
-							<b>
-								<u>{this.extractExtension(dataFile)} </u>
-							</b>{' '}
-							mais le format{' '}
-							<b>
-								<u> {dataFileType}</u>
-							</b>{' '}
-							est attendu
-						</div>
-					) : null}
-					<br />
-					<br />
-					
-					<button
-						type="submit"
-						id="VisualizeSurvey"
-						onClick={e => this.onClick(e)}
-						disabled={!(!displayErrorData && !displayErrorModel && dataFile !== null && modelFile !== null && surveyName!== "")}
-					>
-						{this.props.type === 'papi'
-							? 'Générer le Pdf de publipostage'
-							: 'Prévisualiser le publipostage'}
-					</button>
-				
-				</form>
-				</div>
-			</React.Fragment>
-		);
+            {surveyName === "" && (dataFile !== null || modelFile != null) ? (
+              <div className="errorText">
+                Merci de renseigner un nom d'enquête pour débloquer l'accés aux
+                différentes options
+              </div>
+            ) : null}
+            <br />
+            <br />
+            <label>
+              Charger un modèle de données (au format {modelFileType})
+              <input
+                type="file"
+                id="ModelFile"
+                accept={`.${modelFileType}`}
+                onChange={(e) => this.handleFile(e, "model")}
+                required
+              />
+            </label>
+            {modelFile !== null && displayErrorModel === true ? (
+              <div className="errorText">
+                Le fichier de modèle sélectionné est au format{" "}
+                <b>
+                  <u>{this.extractExtension(modelFile)}</u>
+                </b>{" "}
+                mais le format{" "}
+                <b>
+                  <u>{modelFileType}</u>
+                </b>{" "}
+                est attendu.
+              </div>
+            ) : null}
+            <br />
+            <br />
+            {this.props.type === "cawiv2" || this.props.type === "capi" ? (
+              <label>
+                (Optionnel) Charger un fichier de métadonnées (au format json)
+                <input
+                  type="file"
+                  id="MetadataFile"
+                  accept="application/JSON"
+                  onChange={(e) => this.handleFile(e, "metadata")}
+                  required
+                />
+              </label>
+            ) : null}
+
+            <br />
+            <br />
+            <label>
+              Charger un fichier de données (au format {dataFileType})
+            </label>
+            <br></br>
+            <ul className="DataUploadChoice">
+              <li>
+                {" "}
+                En téléchargeant un fichier de personnalisation
+                <button
+                  type="submit"
+                  id="DownloadPerso"
+                  disabled={
+                    !(
+                      !displayErrorModel &&
+                      modelFile !== null &&
+                      surveyName !== ""
+                    )
+                  }
+                  onClick={(e) => this.onDownload(e)}
+                >
+                  Télécharger un fichier de personnalisation
+                </button>
+              </li>
+              <li>
+                Directement depuis votre disque local
+                <input
+                  type="file"
+                  id="DataFile"
+                  accept={`.${dataFileType}`}
+                  onChange={(e) => this.handleFile(e, "data")}
+                  required
+                />
+              </li>
+            </ul>
+
+            {dataFile !== null && displayErrorData === true ? (
+              <div className="errorText">
+                Le fichier de données sélectionné est au format{" "}
+                <b>
+                  <u>{this.extractExtension(dataFile)} </u>
+                </b>{" "}
+                mais le format{" "}
+                <b>
+                  <u> {dataFileType}</u>
+                </b>{" "}
+                est attendu
+              </div>
+            ) : null}
+            <br />
+            <br />
+
+            <button
+              type="submit"
+              id="VisualizeSurvey"
+              onClick={(e) => this.onClick(e)}
+              disabled={
+                !(
+                  !displayErrorData &&
+                  !displayErrorModel &&
+                  dataFile !== null &&
+                  modelFile !== null &&
+                  surveyName !== ""
+                )
+              }
+            >
+              {this.props.type === "papi"
+                ? "Générer le Pdf de publipostage"
+                : "Prévisualiser le publipostage"}
+            </button>
+          </form>
+        </div>
+      </React.Fragment>
+    );
 	}
 }
 
