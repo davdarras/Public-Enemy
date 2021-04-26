@@ -20,6 +20,8 @@ class Form extends React.Component {
 			
 			dataFileType: myProperties.parameters.DataFileType[this.props.type],
 			modelFileType: myProperties.parameters.ModelFileType[this.props.type],
+      dataFileTypeName: myProperties.parameters.DataFileTypeName[this.props.type],
+			modelFileTypeName: myProperties.parameters.ModelFileTypeName[this.props.type],
 			surveyName : "",
 		};
 	}
@@ -34,33 +36,40 @@ class Form extends React.Component {
 	extractExtension = f => f.name.split('.')[f.name.split('.').length - 1].trim();
 
 	onClick(event) {
-		const { urlApi } = this.state;
-		event.preventDefault();
-		const myFiles = new FormData();
-		myFiles.append('survey', this.state.surveyName);
-		myFiles.append('data', this.state.dataFile);
-		myFiles.append("model", this.state.modelFile);
+                   const { urlApi } = this.state;
+                   event.preventDefault();
+                   const myFiles = new FormData();
+                   myFiles.append("survey", this.state.surveyName);
+                   myFiles.append("data", this.state.dataFile);
+                   myFiles.append("model", this.state.modelFile);
 
-		const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-		axios({
-			method: 'post',
-			url:
-				this.props.type === 'papi'
-					? urlApi + myProperties.pathPapi
-					: urlApi + myProperties.pathCawiCati,
-			data: myFiles,
-			responseType: this.props.type === 'papi' ? 'blob' : null,
-			config,
-		})
-			.then(response => {
-				this.props.type !== 'papi'
-					? this.handleClickCawiCati(response)
-					: this.handleClickPapi(response);
-			})
-			.catch(err => {
-				console.log(err);
-			});
-	}
+                   {(this.props.type === "capi" ||
+                      this.props.type === "cawi-v2") &&
+                    this.state.metadataFile !== null
+                      ? myFiles.append("metadata", this.state.metadataFile)
+                      : null;}
+
+                   const config = {
+                     headers: { "Content-Type": "multipart/form-data" },
+                   };
+                   axios({
+                     method: "post",
+                     url:
+                       urlApi + myProperties.parameters.VizualisationPath[this.props.type],
+                         
+                     data: myFiles,
+                     responseType: this.props.type === "papi" ? "blob" : null,
+                     config,
+                   })
+                     .then((response) => {
+                       this.props.type !== "papi"
+                         ? this.handleClickCawiCati(response)
+                         : this.handleClickPapi(response);
+                     })
+                     .catch((err) => {
+                       console.log(err);
+                     });
+                 }
 
 	onDownload(event) {
 		const { urlApi } = this.state;
@@ -73,9 +82,8 @@ class Form extends React.Component {
 		axios({
 			method: 'post',
 			url:
-				this.props.type === 'papi'
-					? urlApi + myProperties.pathPersoPapi
-					: urlApi + myProperties.pathPersoCawiCati,
+      urlApi + myProperties.parameters.VizualisationPath[this.props.type],
+                         
 			data: myFilesDl,
 			responseType: 'blob',
 			config,
@@ -128,6 +136,7 @@ class Form extends React.Component {
 				displayErrorType = !(this.state.modelFileType === this.extractExtension(File));
 
 				break;
+        
 			default:
 		}
 		this.setState({
@@ -141,7 +150,17 @@ class Form extends React.Component {
 
 	render() {
 		
-		const { dataFile, modelFile, displayErrorData, displayErrorModel, dataFileType, modelFileType, surveyName } = this.state;
+		const {
+      dataFile,
+      modelFile,
+      displayErrorData,
+      displayErrorModel,
+      dataFileType,
+      modelFileType,
+      dataFileTypeName,
+      modelFileTypeName,
+      surveyName,
+    } = this.state;
 		return (
       <React.Fragment>
         <div id="box">
@@ -167,11 +186,11 @@ class Form extends React.Component {
             <br />
             <br />
             <label>
-              Charger un modèle de données (au format {modelFileType})
+              Charger un modèle de données (au format {modelFileTypeName})
               <input
                 type="file"
                 id="ModelFile"
-                accept={`.${modelFileType}`}
+                accept={`${modelFileType}`}
                 onChange={(e) => this.handleFile(e, "model")}
                 required
               />
@@ -184,7 +203,7 @@ class Form extends React.Component {
                 </b>{" "}
                 mais le format{" "}
                 <b>
-                  <u>{modelFileType}</u>
+                  <u>{modelFileTypeName}</u>
                 </b>{" "}
                 est attendu.
               </div>
@@ -199,7 +218,7 @@ class Form extends React.Component {
                   id="MetadataFile"
                   accept="application/JSON"
                   onChange={(e) => this.handleFile(e, "metadata")}
-                  required
+                  
                 />
               </label>
             ) : null}
@@ -207,7 +226,7 @@ class Form extends React.Component {
             <br />
             <br />
             <label>
-              Charger un fichier de données (au format {dataFileType})
+              Charger un fichier de données (au format {dataFileTypeName})
             </label>
             <br></br>
             <ul className="DataUploadChoice">
@@ -234,7 +253,7 @@ class Form extends React.Component {
                 <input
                   type="file"
                   id="DataFile"
-                  accept={`.${dataFileType}`}
+                  accept={`${dataFileType}`}
                   onChange={(e) => this.handleFile(e, "data")}
                   required
                 />
@@ -249,7 +268,7 @@ class Form extends React.Component {
                 </b>{" "}
                 mais le format{" "}
                 <b>
-                  <u> {dataFileType}</u>
+                  <u> {dataFileTypeName}</u>
                 </b>{" "}
                 est attendu
               </div>
@@ -273,7 +292,7 @@ class Form extends React.Component {
             >
               {this.props.type === "papi"
                 ? "Générer le Pdf de publipostage"
-                : "Prévisualiser le publipostage"}
+                : "Prévisualiser le questionnaire"}
             </button>
           </form>
         </div>
