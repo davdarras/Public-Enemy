@@ -1,156 +1,154 @@
-import React from 'react';
-import * as myProperties from 'properties';
-import axios from 'axios';
+import React from "react";
+import * as myProperties from "properties";
+import axios from "axios";
 
 const apiConfigPath = `${window.location.origin}/configuration.json`;
 
 class Form extends React.Component {
-	constructor(props) {
-		
-		super(props);
-		this.onChange = this.onChange.bind(this);
-		this.state = {
-			urlApi: '',
-			dataFile: null,
-			modelFile: null,
-			metadataFile: null,
-			treatmentFile: null,
-			displayErrorData: false,
-			displayErrorModel: false,
-			
-			dataFileType: myProperties.parameters.DataFileType[this.props.type],
-			modelFileType: myProperties.parameters.ModelFileType[this.props.type],
-      dataFileTypeName: myProperties.parameters.DataFileTypeName[this.props.type],
-			modelFileTypeName: myProperties.parameters.ModelFileTypeName[this.props.type],
-			surveyName : "",
-		};
-	}
+  constructor(props) {
+    super(props);
+    this.onChange = this.onChange.bind(this);
+    this.state = {
+      urlApi: "",
+      dataFile: null,
+      modelFile: null,
+      metadataFile: null,
+      treatmentFile: null,
+      displayErrorData: false,
+      displayErrorModel: false,
 
-	componentDidMount() {
-		fetch(apiConfigPath)
-			.then(response => response.json())
-			.then(data => this.setState({ urlApi: data.urlApi }));
-	}
+      dataFileType: myProperties.parameters.DataFileType[this.props.type],
+      modelFileType: myProperties.parameters.ModelFileType[this.props.type],
+      dataFileTypeName:
+        myProperties.parameters.DataFileTypeName[this.props.type],
+      modelFileTypeName:
+        myProperties.parameters.ModelFileTypeName[this.props.type],
+      surveyName: "",
+    };
+  }
 
+  componentDidMount() {
+    fetch(apiConfigPath)
+      .then((response) => response.json())
+      .then((data) => this.setState({ urlApi: data.urlApi }));
+  }
 
-	extractExtension = f => f.name.split('.')[f.name.split('.').length - 1].trim();
+  extractExtension = (f) =>
+    f.name.split(".")[f.name.split(".").length - 1].trim();
 
-	onClick(event) {
-                   const { urlApi } = this.state;
-                   event.preventDefault();
-                   const myFiles = new FormData();
-                   myFiles.append("survey", this.state.surveyName);
-                   myFiles.append("data", this.state.dataFile);
-                   myFiles.append("model", this.state.modelFile);
+  onClick(event) {
+    const { urlApi } = this.state;
+    event.preventDefault();
+    const myFiles = new FormData();
+    myFiles.append("survey", this.state.surveyName);
+    myFiles.append("data", this.state.dataFile);
+    myFiles.append("model", this.state.modelFile);
 
-                   {(this.props.type === "capi" ||
-                      this.props.type === "cawi-v2") &&
-                    this.state.metadataFile !== null
-                      ? myFiles.append("metadata", this.state.metadataFile)
-                      : null;}
+    ()=>{this.props.type === "capi" || this.props.type === "cawi-v2" &&
+      null !== this.state.metadataFile ? myFiles.append("metadata", this.state.metadataFile):null};
+  
 
-                   const config = {
-                     headers: { "Content-Type": "multipart/form-data" },
-                   };
-                   axios({
-                     method: "post",
-                     url:
-                       urlApi + myProperties.parameters.VizualisationPath[this.props.type],
-                         
-                     data: myFiles,
-                     responseType: this.props.type === "papi" ? "blob" : null,
-                     config,
-                   })
-                     .then((response) => {
-                       this.props.type !== "papi"
-                         ? this.handleClickCawiCati(response)
-                         : this.handleClickPapi(response);
-                     })
-                     .catch((err) => {
-                       console.log(err);
-                     });
-                 }
+    const config = {
+      headers: { "Content-Type": "multipart/form-data" },
+    };
+    axios({
+      method: "post",
+      url: urlApi + myProperties.parameters.VizualisationPath[this.props.type],
 
-	onDownload(event) {
-		const { urlApi } = this.state;
-		event.preventDefault();
-		const myFilesDl = new FormData();
-		myFilesDl.append('survey', this.state.surveyName);
-		myFilesDl.append('model', this.state.modelFile);
+      data: myFiles,
+      responseType: this.props.type === "papi" ? "blob" : null,
+      config,
+    })
+      .then((response) => {
+        this.props.type !== "papi"
+          ? this.handleClickCawiCati(response)
+          : this.handleClickPapi(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
-		const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-		axios({
-			method: 'post',
-			url:
-      urlApi + myProperties.parameters.VizualisationPath[this.props.type],
-                         
-			data: myFilesDl,
-			responseType: 'blob',
-			config,
-		})
-			.then(response => {
-				this.handleClickPersoFile(response);
-			})
-			.catch(err => {
-				console.log(err);
-			});
-	}
+  onDownload(event) {
+    const { urlApi } = this.state;
+    event.preventDefault();
+    const myFilesDl = new FormData();
+    myFilesDl.append("survey", this.state.surveyName);
+    myFilesDl.append("model", this.state.modelFile);
 
-	handleClickPapi(response) {
-		const file = new Blob([response.data], { type: 'application/pdf' });
-		const fileURL = window.URL.createObjectURL(file);
-		let a = document.createElement('a');
-		a.href = fileURL;
-		a.download = `[${this.state.surveyName}]Prévisualisation Questionnaire.pdf`;
-		document.body.appendChild(a);
-		a.click();
-		document.body.removeChild(a);
-		
-	}
-	handleClickPersoFile(response) {
-		const file = new Blob([response.data], { type: 'application/xml' });
-		const fileURL = window.URL.createObjectURL(file);
-		let a = document.createElement('a');
-		a.href = fileURL;
-		a.download = `[${this.state.surveyName}]Fichier de personnalisation.xml`;
-		document.body.appendChild(a);
-		a.click();
-		document.body.removeChild(a);
-		
-	}
+    const config = { headers: { "Content-Type": "multipart/form-data" } };
+    axios({
+      method: "post",
+      url: urlApi + myProperties.parameters.VizualisationPath[this.props.type],
 
-	handleClickCawiCati(response) {
-		window.open(response.data);
-	}
+      data: myFilesDl,
+      responseType: "blob",
+      config,
+    })
+      .then((response) => {
+        this.handleClickPersoFile(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
-	handleFile(e, FileType) {
-		const File = e.target.files[0];
+  handleClickPapi(response) {
+    const file = new Blob([response.data], { type: "application/pdf" });
+    const fileURL = window.URL.createObjectURL(file);
+    let a = document.createElement("a");
+    a.href = fileURL;
+    a.download = `[${this.state.surveyName}]Prévisualisation Questionnaire.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+  handleClickPersoFile(response) {
+    const file = new Blob([response.data], { type: "application/xml" });
+    const fileURL = window.URL.createObjectURL(file);
+    let a = document.createElement("a");
+    a.href = fileURL;
+    a.download = `[${this.state.surveyName}]Fichier de personnalisation.xml`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
 
-		let displayErrorType;
-		switch (FileType) {
-			case 'data':
-				displayErrorType = !(this.state.dataFileType === this.extractExtension(File));
+  handleClickCawiCati(response) {
+    window.open(response.data);
+  }
 
-				break;
-			case 'model':
-				displayErrorType = !(this.state.modelFileType === this.extractExtension(File));
+  handleFile(e, FileType) {
+    const File = e.target.files[0];
 
-				break;
-        
-			default:
-		}
-		this.setState({
-			[FileType + 'File']: File,
-			['displayError' + FileType]: displayErrorType,
-		});
-	}
-	onChange(event) {
-		this.setState({surveyName: event.target.value});
-	  }
+    let displayErrorType;
+    switch (FileType) {
+      case "data":
+        displayErrorType = !(
+          this.state.dataFileType === this.extractExtension(File)
+        );
 
-	render() {
-		
-		const {
+        break;
+      case "model":
+        displayErrorType = !(
+          this.state.modelFileType === this.extractExtension(File)
+        );
+
+        break;
+
+      default:
+    }
+    this.setState({
+      [FileType + "File"]: File,
+      ["displayError" + FileType]: displayErrorType,
+    });
+  }
+  onChange(event) {
+    this.setState({ surveyName: event.target.value });
+  }
+
+  render() {
+    const {
       dataFile,
       modelFile,
       displayErrorData,
@@ -161,7 +159,7 @@ class Form extends React.Component {
       modelFileTypeName,
       surveyName,
     } = this.state;
-		return (
+    return (
       <React.Fragment>
         <div id="box">
           <form id="filesend">
@@ -218,7 +216,6 @@ class Form extends React.Component {
                   id="MetadataFile"
                   accept="application/JSON"
                   onChange={(e) => this.handleFile(e, "metadata")}
-                  
                 />
               </label>
             ) : null}
@@ -298,7 +295,7 @@ class Form extends React.Component {
         </div>
       </React.Fragment>
     );
-	}
+  }
 }
 
 export default Form;
