@@ -44,8 +44,8 @@ class Form extends React.Component {
     myFiles.append("data", this.state.dataFile);
     myFiles.append("model", this.state.modelFile);
 
-    ()=>{this.props.type === "capi" || this.props.type === "cawi-v2" &&
-      null !== this.state.metadataFile ? myFiles.append("metadata", this.state.metadataFile):null};
+    if(this.props.type === "capi" || this.props.type === "cawiv2" )
+      { myFiles.append("metadata", this.state.metadataFile)}
   
 
     const config = {
