@@ -44,7 +44,7 @@ class Form extends React.Component {
     myFiles.append("data", this.state.dataFile);
     myFiles.append("model", this.state.modelFile);
 
-    if(this.props.type === "capi" || this.props.type === "cawiv2" )
+    if(this.props.type === "cawiv2" )
       { myFiles.append("metadata", this.state.metadataFile)}
   
 
@@ -208,7 +208,7 @@ class Form extends React.Component {
             ) : null}
             <br />
             <br />
-            {this.props.type === "cawiv2" || this.props.type === "capi" ? (
+            {this.props.type === "cawiv2" ? (
               <label>
                 (Optionnel) Charger un fichier de métadonnées (au format json)
                 <input
