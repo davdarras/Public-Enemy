@@ -1,1 +1,1 @@
-{  "urlApi": "http://localhost:8080"}
+{ "urlApi_Comment": "backend url for uploaded files treatments", "urlApi": "${PUBLICENEMY_API_URL}" }
