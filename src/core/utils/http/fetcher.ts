@@ -121,14 +121,11 @@ const fetcher = <ResponseType>(
     headers: headers,
     method,
     body: payload,
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Problem with request");
-      }
-      return response.json();
-    })
-    .catch((err) => {
-      throw new Error(err);
-    });
+  }).then((response) => {
+    if (!response.ok) {
+      throw new Error("Problem with request");
+    }
+
+    return response.json();
+  });
 };

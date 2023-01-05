@@ -1,4 +1,3 @@
-import { Title } from "@mui/icons-material";
 import SaveIcon from "@mui/icons-material/Save";
 import { LoadingButton } from "@mui/lab";
 import {
@@ -22,7 +21,7 @@ import { memo, useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import { useNavigate } from "react-router-dom";
 import { makeStyles } from "tss-react/mui";
-import { ConfirmationDialog, Loader } from "./base";
+import { ConfirmationDialog, Loader, Title } from "./base";
 
 export type QuestionnaireEditFormProps = {
   questionnaire: Questionnaire;
@@ -211,8 +210,9 @@ export const QuestionnaireEditForm = memo(
           );
           navigate("/questionnaires");
         })
-        .catch(() => {
+        .catch((err) => {
           notifier.error(intl.formatMessage({ id: "error_request_failed" }));
+          console.log(err);
         })
         .finally(() => {
           setSubmitting(false);

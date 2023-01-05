@@ -42,7 +42,7 @@ export const Application = memo(() => {
                 element={<QuestionnaireCheckPoguesIdPage />}
               >
                 <Route
-                  path=":poguesId"
+                  path="/questionnaires/check/:poguesId"
                   element={<QuestionnaireCheckPoguesIdPage />}
                 />
               </Route>

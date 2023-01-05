@@ -40,10 +40,12 @@ export const QuestionnaireDelete = memo(
             intl.formatMessage({ id: "questionnaire_delete_success" })
           );
         })
-        .then(() => {
-          loadQuestionnaires();
+        .catch((err) => {
+          notifier.error(intl.formatMessage({ id: "error_request_failed" }));
+          console.log(err);
         })
         .finally(() => {
+          loadQuestionnaires();
           setOpenConfirmationDialog(false);
         });
     };

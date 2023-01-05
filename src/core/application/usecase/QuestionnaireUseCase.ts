@@ -23,7 +23,7 @@ export function createQuestionnaireUseCase(
    * Get all questionnaires
    * @returns promise of all questionnaires
    */
-  const getQuestionnaires = async (): Promise<Questionnaire[]> => {
+  const getQuestionnaires = (): Promise<Questionnaire[]> => {
     return questionnaireRepository.getQuestionnaires();
   };
 
@@ -32,7 +32,7 @@ export function createQuestionnaireUseCase(
    * @param id questionnaire id
    * @returns promise of one questionnaire
    */
-  const getQuestionnaire = async (id: number): Promise<Questionnaire> => {
+  const getQuestionnaire = (id: number): Promise<Questionnaire> => {
     return questionnaireRepository.getQuestionnaire(id);
   };
 
@@ -41,7 +41,7 @@ export function createQuestionnaireUseCase(
    * @param poguesId
    * @returns promise of one questionnaire
    */
-  const getQuestionnaireFromPogues = async (
+  const getQuestionnaireFromPogues = (
     poguesId: string
   ): Promise<Questionnaire> => {
     return questionnaireRepository.getQuestionnaireFromPogues(poguesId);
@@ -52,7 +52,7 @@ export function createQuestionnaireUseCase(
    * @param questionnaire
    * @returns promise of added questionnaire
    */
-  const addQuestionnaire = async (
+  const addQuestionnaire = (
     questionnaire: Questionnaire
   ): Promise<Questionnaire> => {
     return questionnaireRepository.addQuestionnaire(questionnaire);
@@ -63,7 +63,7 @@ export function createQuestionnaireUseCase(
    * @param questionnaire questionnaire to update
    * @returns promise of updated questionnaire
    */
-  const editQuestionnaire = async (
+  const editQuestionnaire = (
     questionnaire: Questionnaire
   ): Promise<Questionnaire> => {
     return questionnaireRepository.editQuestionnaire(questionnaire);
@@ -73,15 +73,15 @@ export function createQuestionnaireUseCase(
    * Delete questionnaire
    * @param id if od questionnaire to delete
    */
-  const deleteQuestionnaire = async (id: number): Promise<void> => {
-    questionnaireRepository.deleteQuestionnaire(id);
+  const deleteQuestionnaire = (id: number): Promise<void> => {
+    return questionnaireRepository.deleteQuestionnaire(id);
   };
 
   /**
    * Get all contexts
    * @returns all contexts
    */
-  const getContexts = async (): Promise<Context[]> => {
+  const getContexts = (): Promise<Context[]> => {
     return questionnaireRepository.getContexts();
   };
 

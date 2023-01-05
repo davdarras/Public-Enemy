@@ -43,8 +43,9 @@ export const QuestionnaireListPage = memo(() => {
         setQuestionnaires(questionnairesData);
         setLoading(false);
       })
-      .catch(() => {
+      .catch((err) => {
         notifier.error(intl.formatMessage({ id: "error_request_failed" }));
+        console.log(err);
       });
   };
 

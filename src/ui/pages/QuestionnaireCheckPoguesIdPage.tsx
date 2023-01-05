@@ -7,7 +7,7 @@ import * as React from "react";
 import { memo, useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import { useNavigate, useParams } from "react-router-dom";
-import { Block, Title } from "ui/components/base";
+import { Block, Loader, Title } from "ui/components/base";
 
 export const QuestionnaireCheckPoguesIdPage = memo(() => {
   const notifier = useNotifier();
@@ -17,12 +17,15 @@ export const QuestionnaireCheckPoguesIdPage = memo(() => {
   const intl = useIntl();
   const [isSubmitting, setSubmitting] = useState(false);
   const [poguesIdInput, setPoguesIdInput] = useState("");
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     if (poguesId !== undefined) {
       setPoguesIdInput(poguesId);
       handleQuestionnaireRetrieval(poguesId);
+      return;
     }
+    setLoading(false);
   }, []);
 
   /**
@@ -44,11 +47,13 @@ export const QuestionnaireCheckPoguesIdPage = memo(() => {
         );
         navigate("/questionnaires/add", { state: questionnaireData });
       })
-      .catch(() => {
+      .catch((err) => {
         notifier.error(intl.formatMessage({ id: "error_request_failed" }));
+        console.log(err);
       })
       .finally(() => {
         setSubmitting(false);
+        setLoading(false);
       });
   };
 
@@ -66,7 +71,7 @@ export const QuestionnaireCheckPoguesIdPage = memo(() => {
   };
 
   return (
-    <React.Fragment>
+    <Loader isLoading={isLoading}>
       <Grid component="main" container justifyContent="center" spacing={3}>
         <Grid item xs={12} md={8}>
           <Block>
@@ -105,7 +110,7 @@ export const QuestionnaireCheckPoguesIdPage = memo(() => {
           </Block>
         </Grid>
       </Grid>
-    </React.Fragment>
+    </Loader>
   );
 });
 

@@ -11,15 +11,15 @@ import { postRequestMultiPart } from "core/utils/http/fetcher";
 export function createQuestionnaireRepository(
   apiUrl: string
 ): QuestionnaireRepositoryPort {
-  const getQuestionnaires = async (): Promise<Questionnaire[]> => {
+  const getQuestionnaires = (): Promise<Questionnaire[]> => {
     return getRequest<Questionnaire[]>(apiUrl + "/questionnaires");
   };
 
-  const getQuestionnaire = async (id: number): Promise<Questionnaire> => {
+  const getQuestionnaire = (id: number): Promise<Questionnaire> => {
     return getRequest<Questionnaire>(apiUrl + "/questionnaires/" + id);
   };
 
-  const getQuestionnaireFromPogues = async (
+  const getQuestionnaireFromPogues = (
     poguesId: string
   ): Promise<Questionnaire> => {
     return getRequest<Questionnaire>(
@@ -27,7 +27,7 @@ export function createQuestionnaireRepository(
     );
   };
 
-  const addQuestionnaire = async (
+  const addQuestionnaire = (
     questionnaire: Questionnaire
   ): Promise<Questionnaire> => {
     const formData = new FormData();
@@ -47,7 +47,7 @@ export function createQuestionnaireRepository(
     );
   };
 
-  const editQuestionnaire = async (
+  const editQuestionnaire = (
     questionnaire: Questionnaire
   ): Promise<Questionnaire> => {
     const formData = new FormData();
@@ -63,11 +63,11 @@ export function createQuestionnaireRepository(
     );
   };
 
-  const deleteQuestionnaire = async (id: number): Promise<void> => {
-    deleteRequest<void>(apiUrl + "/questionnaires/" + id + "/delete");
+  const deleteQuestionnaire = (id: number): Promise<void> => {
+    return deleteRequest<void>(apiUrl + "/questionnaires/" + id + "/delete");
   };
 
-  const getContexts = async (): Promise<Context[]> => {
+  const getContexts = (): Promise<Context[]> => {
     return getRequest<Context[]>(apiUrl + "/contexts");
   };
 
