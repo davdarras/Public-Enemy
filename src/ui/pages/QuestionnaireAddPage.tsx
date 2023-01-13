@@ -1,6 +1,5 @@
 import { Grid } from "@mui/material";
 import { useNotifier } from "core/infrastructure";
-import * as React from "react";
 import { memo } from "react";
 import { useIntl } from "react-intl";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -21,7 +20,7 @@ export const QuestionnaireAddPage = memo(() => {
   const questionnaire = location.state;
   questionnaire.context = "";
   return (
-    <React.Fragment>
+    <>
       <Grid component="main" container justifyContent="center" spacing={3}>
         <Grid item xs={12} md={8}>
           <Block>
@@ -32,7 +31,7 @@ export const QuestionnaireAddPage = memo(() => {
           </Block>
         </Grid>
       </Grid>
-    </React.Fragment>
+    </>
   );
 });
 

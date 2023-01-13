@@ -1,7 +1,6 @@
 import { Grid } from "@mui/material";
 import { Questionnaire } from "core/application/model";
 import { makeQuestionnaireUseCase } from "core/factory";
-import * as React from "react";
 import { memo, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Block, Loader } from "ui/components/base";
@@ -25,7 +24,7 @@ export const QuestionnaireEditPage = memo(() => {
   }, []);
 
   return (
-    <React.Fragment>
+    <>
       <Grid component="main" container justifyContent="center" spacing={3}>
         <Grid item xs={12} md={8}>
           <Block>
@@ -40,7 +39,7 @@ export const QuestionnaireEditPage = memo(() => {
           </Block>
         </Grid>
       </Grid>
-    </React.Fragment>
+    </>
   );
 });
 

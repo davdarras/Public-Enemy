@@ -3,7 +3,7 @@ import { IconButton } from "@mui/material";
 import { Questionnaire } from "core/application/model";
 import { makeQuestionnaireUseCase } from "core/factory";
 import { useNotifier } from "core/infrastructure";
-import React, { memo, useState } from "react";
+import { memo, useState } from "react";
 import { useIntl } from "react-intl";
 import { ConfirmationDialog } from "./base";
 
@@ -40,7 +40,7 @@ export const QuestionnaireDelete = memo(
             intl.formatMessage({ id: "questionnaire_delete_success" })
           );
         })
-        .catch((err) => {
+        .catch((err: Error) => {
           notifier.error(intl.formatMessage({ id: "error_request_failed" }));
           console.log(err);
         })
@@ -51,7 +51,7 @@ export const QuestionnaireDelete = memo(
     };
 
     return (
-      <React.Fragment>
+      <>
         <IconButton aria-label="delete" onClick={toggleConfirmationDialog}>
           <DeleteIcon />
         </IconButton>
@@ -73,7 +73,7 @@ export const QuestionnaireDelete = memo(
           openConfirmationDialog={openConfirmationDialog}
           setOpenConfirmationDialog={setOpenConfirmationDialog}
         />
-      </React.Fragment>
+      </>
     );
   }
 );

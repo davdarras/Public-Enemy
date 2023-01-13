@@ -1,4 +1,4 @@
-import { Context, Questionnaire } from "../model";
+import { Questionnaire, SurveyContext } from "../model";
 import { QuestionnaireRepositoryPort } from "../port";
 
 export type QuestionnaireUseCaseType = {
@@ -8,7 +8,7 @@ export type QuestionnaireUseCaseType = {
   addQuestionnaire: (questionnaire: Questionnaire) => Promise<Questionnaire>;
   deleteQuestionnaire: (id: number) => Promise<void>;
   editQuestionnaire: (questionnaire: Questionnaire) => Promise<Questionnaire>;
-  getContexts: () => Promise<Context[]>;
+  getSurveyContexts: () => Promise<SurveyContext[]>;
 };
 
 /**
@@ -81,8 +81,8 @@ export function createQuestionnaireUseCase(
    * Get all contexts
    * @returns all contexts
    */
-  const getContexts = (): Promise<Context[]> => {
-    return questionnaireRepository.getContexts();
+  const getSurveyContexts = (): Promise<SurveyContext[]> => {
+    return questionnaireRepository.getSurveyContexts();
   };
 
   return {
@@ -92,6 +92,6 @@ export function createQuestionnaireUseCase(
     addQuestionnaire,
     deleteQuestionnaire,
     editQuestionnaire,
-    getContexts,
+    getSurveyContexts,
   };
 }

@@ -1,4 +1,3 @@
-export { makeNotifier } from "./NotifierFactory";
 export {
   makeQuestionnaireRepository,
   makeQuestionnaireUseCase,

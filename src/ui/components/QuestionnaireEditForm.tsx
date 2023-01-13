@@ -13,7 +13,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Context, Questionnaire } from "core/application/model";
+import { Questionnaire, SurveyContext } from "core/application/model";
 import { makeQuestionnaireUseCase } from "core/factory";
 import { useNotifier } from "core/infrastructure";
 import * as React from "react";
@@ -34,7 +34,7 @@ export const QuestionnaireEditForm = memo(
       ...props.questionnaire,
     });
     const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
-    const [contexts, setContexts] = useState<Context[]>();
+    const [surveyContexts, setSurveyContexts] = useState<SurveyContext[]>();
     const notifier = useNotifier();
     const questionnaireUseCase = makeQuestionnaireUseCase();
     const navigate = useNavigate();
@@ -52,8 +52,8 @@ export const QuestionnaireEditForm = memo(
      */
     useEffect(() => {
       setLoading(true);
-      questionnaireUseCase.getContexts().then((contextsData) => {
-        setContexts(contextsData);
+      questionnaireUseCase.getSurveyContexts().then((surveyContextsData) => {
+        setSurveyContexts(surveyContextsData);
         setLoading(false);
       });
     }, []);
@@ -62,7 +62,7 @@ export const QuestionnaireEditForm = memo(
      * Check validation on data change
      */
     useEffect(() => {
-      if (questionnaire.surveyUnitData !== undefined) {
+      if (questionnaire.surveyUnitData) {
         validateSurveyUnitDataField();
       }
     }, [questionnaire.surveyUnitData]);
@@ -72,7 +72,7 @@ export const QuestionnaireEditForm = memo(
      */
     useEffect(() => {
       if (questionnaire.context !== "") {
-        validateContextField();
+        validateSurveyContextField();
       }
     }, [questionnaire.context]);
 
@@ -115,7 +115,7 @@ export const QuestionnaireEditForm = memo(
      * validate context field
      * @returns true if context field is valid, false otherwise
      */
-    const validateContextField = (): boolean => {
+    const validateSurveyContextField = (): boolean => {
       if (questionnaire.context.length > 0) {
         setErrorContextInput("");
         return true;
@@ -152,9 +152,9 @@ export const QuestionnaireEditForm = memo(
      * @returns true if form is valid, false otherwise
      */
     const validateForm = (): boolean => {
-      const isContextValid = validateContextField();
+      const isSurveyContextValid = validateSurveyContextField();
       const isDataValid = validateSurveyUnitDataField();
-      const isValid = isContextValid && isDataValid;
+      const isValid = isSurveyContextValid && isDataValid;
       setHasErrors(!isValid);
       return isValid;
     };
@@ -275,9 +275,9 @@ export const QuestionnaireEditForm = memo(
                 })}
                 helperText={errorContextInput}
               >
-                {contexts?.map((context) => (
-                  <MenuItem key={context.name} value={context.name}>
-                    {context.value}
+                {surveyContexts?.map((surveyContext) => (
+                  <MenuItem key={surveyContext.name} value={surveyContext.name}>
+                    {surveyContext.value}
                   </MenuItem>
                 ))}
               </TextField>

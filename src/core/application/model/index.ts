@@ -1,2 +1,2 @@
-export type { Context } from "./Context";
 export type { Questionnaire } from "./Questionnaire";
+export type { SurveyContext } from "./SurveyContext";

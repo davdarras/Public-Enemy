@@ -1,4 +1,4 @@
-import { Context, Questionnaire } from "core/application/model";
+import { Questionnaire, SurveyContext } from "core/application/model";
 import { QuestionnaireRepositoryPort } from "core/application/port";
 import { deleteRequest, getRequest } from "core/utils/http";
 import { postRequestMultiPart } from "core/utils/http/fetcher";
@@ -12,18 +12,18 @@ export function createQuestionnaireRepository(
   apiUrl: string
 ): QuestionnaireRepositoryPort {
   const getQuestionnaires = (): Promise<Questionnaire[]> => {
-    return getRequest<Questionnaire[]>(apiUrl + "/questionnaires");
+    return getRequest<Questionnaire[]>(`${apiUrl}/questionnaires`);
   };
 
   const getQuestionnaire = (id: number): Promise<Questionnaire> => {
-    return getRequest<Questionnaire>(apiUrl + "/questionnaires/" + id);
+    return getRequest<Questionnaire>(`${apiUrl}/questionnaires/${id}`);
   };
 
   const getQuestionnaireFromPogues = (
     poguesId: string
   ): Promise<Questionnaire> => {
     return getRequest<Questionnaire>(
-      apiUrl + "/questionnaires/pogues/" + poguesId
+      `${apiUrl}/questionnaires/pogues/${poguesId}`
     );
   };
 
@@ -42,7 +42,7 @@ export function createQuestionnaireRepository(
     }
 
     return postRequestMultiPart<Questionnaire>(
-      apiUrl + "/questionnaires/add",
+      `${apiUrl}/questionnaires/add`,
       formData
     );
   };
@@ -58,17 +58,17 @@ export function createQuestionnaireRepository(
     }
 
     return postRequestMultiPart<Questionnaire>(
-      apiUrl + "/questionnaires/" + questionnaire.id,
+      `${apiUrl}/questionnaires/${questionnaire.id}`,
       formData
     );
   };
 
   const deleteQuestionnaire = (id: number): Promise<void> => {
-    return deleteRequest<void>(apiUrl + "/questionnaires/" + id + "/delete");
+    return deleteRequest<void>(`${apiUrl}/questionnaires/${id}/delete`);
   };
 
-  const getContexts = (): Promise<Context[]> => {
-    return getRequest<Context[]>(apiUrl + "/contexts");
+  const getSurveyContexts = (): Promise<SurveyContext[]> => {
+    return getRequest<SurveyContext[]>(`${apiUrl}/contexts`);
   };
 
   return {
@@ -78,6 +78,6 @@ export function createQuestionnaireRepository(
     addQuestionnaire,
     deleteQuestionnaire,
     editQuestionnaire,
-    getContexts,
+    getSurveyContexts,
   };
 }

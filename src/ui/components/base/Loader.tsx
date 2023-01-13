@@ -13,7 +13,7 @@ type LoaderType = PropsWithChildren<{
 export const Loader = memo(({ isLoading, children }: LoaderType) => {
   const { classes } = useStyles();
   return (
-    <React.Fragment>
+    <>
       {isLoading ? (
         <Box className={classes.root}>
           <CircularProgress />
@@ -21,7 +21,7 @@ export const Loader = memo(({ isLoading, children }: LoaderType) => {
       ) : (
         children
       )}
-    </React.Fragment>
+    </>
   );
 });
 

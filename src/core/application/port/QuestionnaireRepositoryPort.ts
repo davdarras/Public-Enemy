@@ -1,4 +1,4 @@
-import { Context, Questionnaire } from "../model";
+import { Questionnaire, SurveyContext } from "../model";
 
 export type QuestionnaireRepositoryPort = {
   getQuestionnaires: () => Promise<Questionnaire[]>;
@@ -7,5 +7,5 @@ export type QuestionnaireRepositoryPort = {
   addQuestionnaire: (questionnaire: Questionnaire) => Promise<Questionnaire>;
   deleteQuestionnaire: (id: number) => Promise<void>;
   editQuestionnaire: (questionnaire: Questionnaire) => Promise<Questionnaire>;
-  getContexts: () => Promise<Context[]>;
+  getSurveyContexts: () => Promise<SurveyContext[]>;
 };

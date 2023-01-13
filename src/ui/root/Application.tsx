@@ -1,6 +1,5 @@
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import * as React from "react";
 import { memo, useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { makeStyles } from "tss-react/mui";
@@ -21,7 +20,7 @@ export const Application = memo(() => {
   };
 
   return (
-    <React.Fragment>
+    <>
       <Header open={open} toggleDrawer={toggleDrawer} />
       <BrowserRouter>
         <Box className={classes.horizontalContainer}>
@@ -56,7 +55,7 @@ export const Application = memo(() => {
         </Box>
       </BrowserRouter>
       <Footer />
-    </React.Fragment>
+    </>
   );
 });
 
