@@ -33,7 +33,7 @@ export const SurveyUnitListPage = memo(() => {
   const [isSurveyUnitsLoading, setSurveyUnitsLoading] = useState(true);
   const [isQuestionnaireLoading, setQuestionnaireLoading] = useState(true);
   const notifier = useNotifier();
-  const orchestratorUrl = process.env.REACT_APP_ORCHESTRATOR_URL;
+  const orchestratorUrl = import.meta.env.VITE_ORCHESTRATOR_URL;
   const { questionnaireId, modeName } = useParams<SurveyUnitParams>();
 
   useEffect(() => {

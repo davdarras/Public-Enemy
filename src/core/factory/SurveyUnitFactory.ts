@@ -10,7 +10,7 @@ import { createSurveyUnitRepository } from "core/infrastructure";
  * @returns surveyUnit repository factory
  */
 export const makeSurveyUnitRepository = (): SurveyUnitRepositoryPort =>
-  createSurveyUnitRepository(process.env.REACT_APP_API_URL);
+  createSurveyUnitRepository(import.meta.env.VITE_API_URL);
 
 /**
  * Use case factory
