@@ -10,7 +10,7 @@ import { createQuestionnaireRepository } from "core/infrastructure";
  * @returns questionnaire repository factory
  */
 export const makeQuestionnaireRepository = (): QuestionnaireRepositoryPort =>
-  createQuestionnaireRepository(process.env.REACT_APP_API_URL);
+  createQuestionnaireRepository(import.meta.env.VITE_API_URL);
 
 /**
  * Use case factory

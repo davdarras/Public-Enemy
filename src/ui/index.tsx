@@ -18,8 +18,8 @@ const root = ReactDOM.createRoot(
 );
 
 let locale: LocaleType = "en";
-if (process.env.REACT_APP_LOCALE) {
-  locale = process.env.REACT_APP_LOCALE;
+if (import.meta.env.VITE_LOCALE) {
+  locale = import.meta.env.VITE_LOCALE;
 }
 
 /*(async () => {
