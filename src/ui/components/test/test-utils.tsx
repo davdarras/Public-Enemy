@@ -1,14 +1,15 @@
 import { ThemeProvider } from "@emotion/react";
 import { render, RenderOptions } from "@testing-library/react";
 import { getMessages, LocaleType } from "core/i18n/messages";
+import { getEnvVar } from "core/utils/env";
 import { SnackbarProvider } from "notistack";
 import React, { ReactElement } from "react";
 import { IntlProvider } from "react-intl";
 import { appTheme } from "ui/theme";
 
 let locale: LocaleType = "en";
-if (import.meta.env.VITE_LOCALE) {
-  locale = import.meta.env.VITE_LOCALE;
+if (getEnvVar("VITE_LOCALE")) {
+  locale = getEnvVar("VITE_LOCALE");
 }
 
 const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
