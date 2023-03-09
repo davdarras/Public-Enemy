@@ -4,13 +4,14 @@ import {
   SurveyUnitUseCaseType,
 } from "core/application/usecase";
 import { createSurveyUnitRepository } from "core/infrastructure";
+import { getEnvVar } from "core/utils/env";
 
 /**
  * Repository factory
  * @returns surveyUnit repository factory
  */
 export const makeSurveyUnitRepository = (): SurveyUnitRepositoryPort =>
-  createSurveyUnitRepository(import.meta.env.VITE_API_URL);
+  createSurveyUnitRepository(getEnvVar("VITE_API_URL"));
 
 /**
  * Use case factory

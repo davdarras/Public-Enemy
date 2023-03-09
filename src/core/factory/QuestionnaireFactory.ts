@@ -4,13 +4,14 @@ import {
   QuestionnaireUseCaseType,
 } from "core/application/usecase";
 import { createQuestionnaireRepository } from "core/infrastructure";
+import { getEnvVar } from "core/utils/env";
 
 /**
  * Repository factory
  * @returns questionnaire repository factory
  */
 export const makeQuestionnaireRepository = (): QuestionnaireRepositoryPort =>
-  createQuestionnaireRepository(import.meta.env.VITE_API_URL);
+  createQuestionnaireRepository(getEnvVar("VITE_API_URL"));
 
 /**
  * Use case factory
