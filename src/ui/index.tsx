@@ -5,6 +5,7 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { CssBaseline } from "@mui/material";
 import { getMessages, LocaleType } from "core/i18n/messages";
+import { getEnvVar } from "core/utils/env";
 import { SnackbarProvider } from "notistack";
 import React from "react";
 import ReactDOM from "react-dom/client";
@@ -18,8 +19,8 @@ const root = ReactDOM.createRoot(
 );
 
 let locale: LocaleType = "en";
-if (import.meta.env.VITE_LOCALE) {
-  locale = import.meta.env.VITE_LOCALE;
+if (getEnvVar("VITE_LOCALE")) {
+  locale = getEnvVar("VITE_LOCALE");
 }
 
 /*(async () => {

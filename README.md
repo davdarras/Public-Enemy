@@ -6,7 +6,7 @@ This project is directly linked with [Public Enemy Backoffice](https://github.co
 
 ## Configuring project
 
-Change REACT_APP_API_URL in .env to public enemy backoffice url
+Change VITE_API_URL in .env to public enemy backoffice url
 
 ## Launching project
 

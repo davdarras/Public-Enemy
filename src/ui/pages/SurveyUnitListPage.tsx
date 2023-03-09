@@ -13,6 +13,7 @@ import {
 import { Questionnaire, SurveyUnitsData } from "core/application/model";
 import { makeQuestionnaireUseCase, makeSurveyUnitUseCase } from "core/factory";
 import { useNotifier } from "core/infrastructure";
+import { getEnvVar } from "core/utils/env";
 import { memo, useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import { useParams } from "react-router-dom";
@@ -33,7 +34,7 @@ export const SurveyUnitListPage = memo(() => {
   const [isSurveyUnitsLoading, setSurveyUnitsLoading] = useState(true);
   const [isQuestionnaireLoading, setQuestionnaireLoading] = useState(true);
   const notifier = useNotifier();
-  const orchestratorUrl = import.meta.env.VITE_ORCHESTRATOR_URL;
+  const orchestratorUrl = getEnvVar("VITE_ORCHESTRATOR_URL");
   const { questionnaireId, modeName } = useParams<SurveyUnitParams>();
 
   useEffect(() => {
