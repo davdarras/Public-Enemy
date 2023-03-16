@@ -11,7 +11,6 @@ import {
   TableRow,
 } from "@mui/material";
 import { Questionnaire, SurveyUnitsData } from "core/application/model";
-import { makeQuestionnaireUseCase, makeSurveyUnitUseCase } from "core/factory";
 import { useNotifier } from "core/infrastructure";
 import { getEnvVar } from "core/utils/env";
 import { memo, useEffect, useState } from "react";
@@ -24,12 +23,17 @@ type SurveyUnitParams = {
   modeName: string;
 };
 
-export const SurveyUnitListPage = memo(() => {
+type SurveyUnitListPageProps = {
+  fetchQuestionnaire: (id: number) => Promise<Questionnaire>;
+  fetchSurveyUnitsData: (
+    id: number,
+    modeName: string
+  ) => Promise<SurveyUnitsData>;
+};
+
+export const SurveyUnitListPage = memo((props: SurveyUnitListPageProps) => {
   const [surveyUnitsData, setSurveyUnitsData] = useState<SurveyUnitsData>();
   const [questionnaire, setQuestionnaire] = useState<Questionnaire>();
-  const surveyUnitUseCase = makeSurveyUnitUseCase();
-  const questionnaireUseCase = makeQuestionnaireUseCase();
-
   const intl = useIntl();
   const [isSurveyUnitsLoading, setSurveyUnitsLoading] = useState(true);
   const [isQuestionnaireLoading, setQuestionnaireLoading] = useState(true);
@@ -38,15 +42,18 @@ export const SurveyUnitListPage = memo(() => {
   const { questionnaireId, modeName } = useParams<SurveyUnitParams>();
 
   useEffect(() => {
-    // react router doesn't type, but a check has already been done in Application.tsx ... (\\d+))
     if (!(questionnaireId && modeName)) {
+      notifier.error(
+        intl.formatMessage({ id: "survey_unit_list_missing_parameters" })
+      );
       return;
     }
+
     const questionnaireIdNumber = parseInt(questionnaireId, 10);
     loadSurveyUnitsData(questionnaireIdNumber, modeName);
 
-    questionnaireUseCase
-      .getQuestionnaire(questionnaireIdNumber)
+    props
+      .fetchQuestionnaire(questionnaireIdNumber)
       .then((questionnaireData) => {
         setQuestionnaire(questionnaireData);
         setQuestionnaireLoading(false);
@@ -55,8 +62,8 @@ export const SurveyUnitListPage = memo(() => {
 
   const loadSurveyUnitsData = (questionnaireId: number, mode: string): void => {
     setSurveyUnitsLoading(true);
-    surveyUnitUseCase
-      .getSurveyUnitsData(questionnaireId, mode)
+    props
+      .fetchSurveyUnitsData(questionnaireId, mode)
       .then((surveyUnitsData) => {
         setSurveyUnitsData(surveyUnitsData);
         setSurveyUnitsLoading(false);

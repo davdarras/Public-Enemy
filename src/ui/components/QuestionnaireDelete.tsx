@@ -1,7 +1,6 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import { IconButton } from "@mui/material";
 import { Questionnaire } from "core/application/model";
-import { makeQuestionnaireUseCase } from "core/factory";
 import { useNotifier } from "core/infrastructure";
 import { memo, useState } from "react";
 import { useIntl } from "react-intl";
@@ -10,16 +9,20 @@ import { ConfirmationDialog } from "./base";
 type QuestionnaireDeleteType = {
   questionnaire: Questionnaire;
   loadQuestionnaires: () => void;
+  deleteQuestionnaire: (id: number) => Promise<void>;
 };
 
 /**
  * Component used for questionnaire deletion
  */
 export const QuestionnaireDelete = memo(
-  ({ questionnaire, loadQuestionnaires }: QuestionnaireDeleteType) => {
+  ({
+    questionnaire,
+    loadQuestionnaires,
+    deleteQuestionnaire,
+  }: QuestionnaireDeleteType) => {
     const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
     const notifier = useNotifier();
-    const questionnaireUseCase = makeQuestionnaireUseCase();
     const intl = useIntl();
 
     /**
@@ -33,8 +36,7 @@ export const QuestionnaireDelete = memo(
      * Event used when deletion is triggered
      */
     const handleDelete = () => {
-      questionnaireUseCase
-        .deleteQuestionnaire(questionnaire.id)
+      deleteQuestionnaire(questionnaire.id)
         .then(() => {
           notifier.success(
             intl.formatMessage({ id: "questionnaire_delete_success" })

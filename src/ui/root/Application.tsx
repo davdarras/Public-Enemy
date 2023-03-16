@@ -1,5 +1,6 @@
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
+import { makeQuestionnaireUseCase, makeSurveyUnitUseCase } from "core/factory";
 import { memo, useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { makeStyles } from "tss-react/mui";
@@ -19,6 +20,8 @@ export const Application = memo(() => {
   const toggleDrawer = () => {
     setOpen(!open);
   };
+  const questionnaireUseCase = makeQuestionnaireUseCase();
+  const surveyUnitUseCase = makeSurveyUnitUseCase();
 
   return (
     <>
@@ -31,28 +34,62 @@ export const Application = memo(() => {
               <Route path="/" element={<Navigate to="/questionnaires" />} />
               <Route
                 path="/questionnaires"
-                element={<QuestionnaireListPage />}
+                element={
+                  <QuestionnaireListPage
+                    fetchQuestionnaires={questionnaireUseCase.getQuestionnaires}
+                    deleteQuestionnaire={
+                      questionnaireUseCase.deleteQuestionnaire
+                    }
+                  />
+                }
               />
               <Route
                 path="/questionnaires/:id"
-                element={<QuestionnaireEditPage />}
+                element={
+                  <QuestionnaireEditPage
+                    fetchSurveyContexts={questionnaireUseCase.getSurveyContexts}
+                    editQuestionnaire={questionnaireUseCase.editQuestionnaire}
+                  />
+                }
               />
               <Route
                 path="/questionnaires/check"
-                element={<QuestionnaireCheckPoguesIdPage />}
+                element={
+                  <QuestionnaireCheckPoguesIdPage
+                    fetchPoguesQuestionnaire={
+                      questionnaireUseCase.getQuestionnaireFromPogues
+                    }
+                  />
+                }
               >
                 <Route
                   path="/questionnaires/check/:poguesId"
-                  element={<QuestionnaireCheckPoguesIdPage />}
+                  element={
+                    <QuestionnaireCheckPoguesIdPage
+                      fetchPoguesQuestionnaire={
+                        questionnaireUseCase.getQuestionnaireFromPogues
+                      }
+                    />
+                  }
                 />
               </Route>
               <Route
                 path="/questionnaires/add"
-                element={<QuestionnaireAddPage />}
+                element={
+                  <QuestionnaireAddPage
+                    fetchSurveyContexts={questionnaireUseCase.getSurveyContexts}
+                    addQuestionnaire={questionnaireUseCase.addQuestionnaire}
+                  />
+                }
               ></Route>
               <Route
                 path="/questionnaires/:questionnaireId/modes/:modeName"
-                element={<SurveyUnitListPage />}
+                element={
+                  <SurveyUnitListPage
+                    fetchSurveyUnitsData={surveyUnitUseCase.getSurveyUnitsData}
+                    fetchQuestionnaire={questionnaireUseCase.getQuestionnaire}
+                  />
+                }
               />
               <Route path="*" element={<ErrorPage />} />
             </Routes>
