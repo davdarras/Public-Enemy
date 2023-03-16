@@ -1,5 +1,24 @@
 import { NotificationType, NotifierPort } from "core/application/port";
 import { useSnackbar } from "notistack";
+import type { PropsWithChildren } from "react";
+import { createContext, useContext } from "react";
+
+type NotifyFunction = (notification: NotificationType) => void;
+
+const NotifierContext = createContext({
+  notify: null as null | NotifyFunction,
+});
+
+export const NotifierProvider = ({
+  notify,
+  children,
+}: PropsWithChildren<{ notify: NotifyFunction }>) => {
+  return (
+    <NotifierContext.Provider value={{ notify }}>
+      {children}
+    </NotifierContext.Provider>
+  );
+};
 
 /**
  * Global notifier
@@ -44,15 +63,19 @@ export const useNotifier = (): NotifierPort => {
    * global notification method
    * @param message notify message
    */
-  const notify = (notification: NotificationType): void => {
-    enqueueSnackbar(notification.message, {
-      variant: notification.type,
-      anchorOrigin: {
-        vertical: "top",
-        horizontal: "center",
-      },
+  const { notify: notifyContext } = useContext(NotifierContext);
+
+  const notify: NotifyFunction =
+    notifyContext ||
+    ((notification: NotificationType) => {
+      enqueueSnackbar(notification.message, {
+        variant: notification.type,
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "center",
+        },
+      });
     });
-  };
 
   return { success, error, warn, info };
 };

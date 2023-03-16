@@ -1,22 +1,34 @@
-import { render, screen } from "ui/components/test/test-utils";
-import { describe, test } from "vitest";
-import { SurveyUnitListPage } from ".";
+import { createMemoryRouter, RouterProvider } from "react-router-dom";
+import { simpleQuestionnaire } from "test/mock/questionnaire";
+import { surveyUnitsData } from "test/mock/surveyUnitsData";
+import { notifyFunction, renderWithProviders } from "test/test-utils";
+import { vi } from "vitest";
+import { SurveyUnitListPage } from "./SurveyUnitListPage";
 
-describe("Survey Units tests", () => {
-  /*afterEach(() => {
-    vi.restoreAllMocks()
-  })*/
+describe.only("SurveyUnitListPage", () => {
+  const fetchSurveyUnitsData = vi.fn(() => Promise.resolve(surveyUnitsData));
+  const fetchQuestionnaire = vi.fn(() => Promise.resolve(simpleQuestionnaire));
+  const router = createMemoryRouter(
+    [
+      {
+        path: "/",
+        element: (
+          <SurveyUnitListPage
+            fetchSurveyUnitsData={fetchSurveyUnitsData}
+            fetchQuestionnaire={fetchQuestionnaire}
+          />
+        ),
+      },
+    ],
+    { initialEntries: ["/"], initialIndex: 0 }
+  );
 
-  test("should show Error title all the time", () => {
-    render(<SurveyUnitListPage></SurveyUnitListPage>);
-    //expect(screen.getByText(/Actions/i)).toBeDefined();
-    screen.debug();
+  test("should show error when missing questionnaire and mode parameters", () => {
+    renderWithProviders(<RouterProvider router={router} />);
+    expect(notifyFunction).toHaveBeenCalledWith({
+      message:
+        "Des paramètres sont manquants pour afficher correctement la page",
+      type: "error",
+    });
   });
-  /*
-  test("should notify error", () => {
-    render(<SurveyUnitListPage></SurveyUnitListPage>);
-    vi.spyOn(SurveyUnitListPage., 'getSurveyUnitsData').mockImplementation(() => Promise.reject(...))
-
-    expect(screen.getByText(/Actions/i)).toBeDefined();
-  });*/
 });

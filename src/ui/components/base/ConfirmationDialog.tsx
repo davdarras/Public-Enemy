@@ -44,6 +44,7 @@ export const ConfirmationDialog = memo(
         onClose={toggleConfirmationDialog}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
+        data-testid="confirmation-dialog"
       >
         <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
         <DialogContent>
@@ -53,6 +54,7 @@ export const ConfirmationDialog = memo(
         </DialogContent>
         <DialogActions>
           <Button
+            data-testid="confirmation-disagree"
             color="error"
             variant="contained"
             onClick={toggleConfirmationDialog}
@@ -60,6 +62,7 @@ export const ConfirmationDialog = memo(
             {disagreeBtnLabel}
           </Button>
           <Button
+            data-testid="confirmation-agree"
             color="info"
             variant="contained"
             onClick={handleConfirmation}

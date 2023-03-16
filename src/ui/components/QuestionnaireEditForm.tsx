@@ -14,7 +14,6 @@ import {
   Typography,
 } from "@mui/material";
 import { Questionnaire, SurveyContext } from "core/application/model";
-import { makeQuestionnaireUseCase } from "core/factory";
 import { useNotifier } from "core/infrastructure";
 import * as React from "react";
 import { memo, useEffect, useState } from "react";
@@ -26,6 +25,8 @@ import { ConfirmationDialog, Loader, Title } from "./base";
 export type QuestionnaireEditFormProps = {
   questionnaire: Questionnaire;
   isEditMode: boolean;
+  fetchSurveyContexts: () => Promise<SurveyContext[]>;
+  saveQuestionnaire: (questionnaire: Questionnaire) => Promise<Questionnaire>;
 };
 
 export const QuestionnaireEditForm = memo(
@@ -36,7 +37,6 @@ export const QuestionnaireEditForm = memo(
     const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
     const [surveyContexts, setSurveyContexts] = useState<SurveyContext[]>();
     const notifier = useNotifier();
-    const questionnaireUseCase = makeQuestionnaireUseCase();
     const navigate = useNavigate();
     const intl = useIntl();
     const [isLoading, setLoading] = useState(true);
@@ -51,8 +51,8 @@ export const QuestionnaireEditForm = memo(
      * Load contexts on mount
      */
     useEffect(() => {
-      setLoading(true);
-      questionnaireUseCase.getSurveyContexts().then((surveyContextsData) => {
+      setLoading(false);
+      props.fetchSurveyContexts().then((surveyContextsData) => {
         setSurveyContexts(surveyContextsData);
         setLoading(false);
       });
@@ -170,8 +170,7 @@ export const QuestionnaireEditForm = memo(
       event: React.FormEvent<HTMLFormElement>
     ) => {
       event.preventDefault();
-      validateForm() &&
-        saveQuestionnaire(questionnaireUseCase.addQuestionnaire);
+      validateForm() && saveAction();
     };
 
     /**
@@ -190,28 +189,27 @@ export const QuestionnaireEditForm = memo(
      */
     const handleSaveEditQuestionnaire = () => {
       setOpenConfirmationDialog(false);
-      saveQuestionnaire(questionnaireUseCase.editQuestionnaire);
+      saveAction();
     };
 
     /**
      * Save questionnaire
-     * @param saveAction save action method
      */
-    const saveQuestionnaire = (
-      saveAction: (questionnaire: Questionnaire) => Promise<Questionnaire>
-    ) => {
+    const saveAction = () => {
       setHasErrors(false);
       setErrorContextInput("");
       setErrorSurveyUnitDataInput("");
 
       setSubmitting(true);
 
-      saveAction(questionnaire)
+      props
+        .saveQuestionnaire(questionnaire)
         .then(() => {
           notifier.success(
             intl.formatMessage({ id: "questionnaire_edit_success" })
           );
           navigate("/questionnaires");
+          return;
         })
         .catch((err) => {
           notifier.error(intl.formatMessage({ id: "error_request_failed" }));
@@ -278,6 +276,9 @@ export const QuestionnaireEditForm = memo(
                 label={intl.formatMessage({
                   id: "questionnaire_context",
                 })}
+                inputProps={{
+                  id: "select-input",
+                }}
                 helperText={errorContextInput}
               >
                 {surveyContexts?.map((surveyContext) => (
@@ -301,12 +302,14 @@ export const QuestionnaireEditForm = memo(
                   id: "questionnaire_edit_upload",
                 })}
                 <Input
+                  data-testid="upload"
                   onChange={handleSurveyUnitDataChange}
                   name="surveyUnitData"
                   sx={{ display: "none" }}
                   type="file"
                 />
               </Button>
+
               <FormHelperText>
                 {errorSurveyUnitDataInput
                   ? errorSurveyUnitDataInput
@@ -317,6 +320,7 @@ export const QuestionnaireEditForm = memo(
 
           <Stack direction="row" justifyContent="center">
             <LoadingButton
+              data-testid="save-questionnaire"
               type="submit"
               color="info"
               variant="contained"
@@ -331,6 +335,7 @@ export const QuestionnaireEditForm = memo(
           </Stack>
           {props.isEditMode && (
             <ConfirmationDialog
+              data-testid="confirmation-dialog"
               title={intl.formatMessage({
                 id: "questionnaire_edit_confirmation_label",
               })}

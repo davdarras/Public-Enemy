@@ -1,33 +1,49 @@
 import { Grid } from "@mui/material";
+import { Questionnaire, SurveyContext } from "core/application/model";
 import { useNotifier } from "core/infrastructure";
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Block } from "ui/components/base";
 import { QuestionnaireEditForm } from "ui/components/QuestionnaireEditForm";
 
-export const QuestionnaireAddPage = memo(() => {
+export type QuestionnaireAddPageProps = {
+  fetchSurveyContexts: () => Promise<SurveyContext[]>;
+  addQuestionnaire: (questionnaire: Questionnaire) => Promise<Questionnaire>;
+};
+
+export const QuestionnaireAddPage = memo((props: QuestionnaireAddPageProps) => {
   const notifier = useNotifier();
   const location = useLocation();
   const navigate = useNavigate();
   const intl = useIntl();
+  const [questionnaire, setQuestionnaire] = useState<Questionnaire>();
 
-  if (location.state === undefined) {
-    notifier.error(intl.formatMessage({ id: "questionnaire_add_notfound" }));
-    navigate("/questionnaires");
-  }
+  useEffect(() => {
+    if (!location?.state) {
+      notifier.error(intl.formatMessage({ id: "questionnaire_add_notfound" }));
+      navigate("/questionnaires");
+      return;
+    }
+    setQuestionnaire({
+      ...location.state,
+      context: "",
+    });
+  }, [location]);
 
-  const questionnaire = location.state;
-  questionnaire.context = "";
   return (
     <>
       <Grid component="main" container justifyContent="center" spacing={3}>
         <Grid item xs={12} md={8}>
           <Block>
-            <QuestionnaireEditForm
-              questionnaire={questionnaire}
-              isEditMode={false}
-            />
+            {questionnaire && (
+              <QuestionnaireEditForm
+                questionnaire={questionnaire}
+                isEditMode={false}
+                fetchSurveyContexts={props.fetchSurveyContexts}
+                saveQuestionnaire={props.addQuestionnaire}
+              />
+            )}
           </Block>
         </Grid>
       </Grid>

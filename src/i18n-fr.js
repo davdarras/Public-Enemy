@@ -42,4 +42,6 @@ export const messagesFr = {
   survey_unit_mode_label: "Mode de collecte: {modeName}",
   survey_unit_list_new_window:
     "Ouvrir dans une nouvelle fenêtre l'enquête pour l'unité enquêtée: {surveyUnitId}",
+  survey_unit_list_missing_parameters:
+    "Des paramètres sont manquants pour afficher correctement la page",
 };
