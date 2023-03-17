@@ -27,7 +27,7 @@ export const QuestionnaireEditPage = memo(
           setQuestionnaire(questionnaireData);
           setLoading(false);
         });
-    }, []);
+    }, [id]);
 
     return (
       <>

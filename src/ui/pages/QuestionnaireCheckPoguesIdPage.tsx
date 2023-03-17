@@ -53,8 +53,6 @@ export const QuestionnaireCheckPoguesIdPage = memo(
         .catch((err) => {
           notifier.error(intl.formatMessage({ id: "error_request_failed" }));
           console.log(err);
-        })
-        .finally(() => {
           setSubmitting(false);
           setLoading(false);
         });
@@ -66,10 +64,6 @@ export const QuestionnaireCheckPoguesIdPage = memo(
       setPoguesIdInput(event.target.value);
     };
 
-    /**
-     * event triggered on submit to get questionnaire from pogues id and redirect to add page
-     * @param event
-     */
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       handleQuestionnaireRetrieval(poguesIdInput);

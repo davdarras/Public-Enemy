@@ -1,7 +1,7 @@
 import userEvent from "@testing-library/user-event";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import { simpleQuestionnaire } from "test/mock/questionnaire";
-import { notifyFunction, renderWithProviders, screen } from "test/test-utils";
+import { notifySpy, renderWithProviders, screen } from "test/test-utils";
 import { vi } from "vitest";
 import { QuestionnaireCheckPoguesIdPage } from ".";
 
@@ -38,7 +38,7 @@ describe.only("QuestionnaireAddPage", () => {
 
     expect(mockFetchPoguesQuestionnaire).toHaveBeenCalledWith("l8wwljbo");
 
-    expect(notifyFunction).toHaveBeenCalledWith({
+    expect(notifySpy).toHaveBeenCalledWith({
       message: "Questionnaire récupéré",
       type: "success",
     });
