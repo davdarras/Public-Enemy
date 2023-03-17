@@ -1,3 +1,4 @@
+import AttachFileIcon from "@mui/icons-material/AttachFile";
 import SaveIcon from "@mui/icons-material/Save";
 import { LoadingButton } from "@mui/lab";
 import {
@@ -15,6 +16,7 @@ import {
 } from "@mui/material";
 import { Questionnaire, SurveyContext } from "core/application/model";
 import { useNotifier } from "core/infrastructure";
+import { getEnvVar } from "core/utils/env";
 import * as React from "react";
 import { memo, useEffect, useState } from "react";
 import { useIntl } from "react-intl";
@@ -46,6 +48,8 @@ export const QuestionnaireEditForm = memo(
     const [errorSurveyUnitDataInput, setErrorSurveyUnitDataInput] =
       useState("");
     const [hasErrors, setHasErrors] = useState<boolean>(false);
+
+    const apiUrl = getEnvVar("VITE_API_URL");
 
     /**
      * Load contexts on mount
@@ -290,6 +294,8 @@ export const QuestionnaireEditForm = memo(
             </FormControl>
           </Grid>
 
+          <Grid item xs={12} sm={6}></Grid>
+
           <Grid item xs={12} sm={6}>
             <FormControl
               error={errorSurveyUnitDataInput ? true : false}
@@ -315,6 +321,18 @@ export const QuestionnaireEditForm = memo(
                   ? errorSurveyUnitDataInput
                   : questionnaire.surveyUnitData?.name}
               </FormHelperText>
+              <Typography variant="body2" gutterBottom>
+                <Button
+                  href={`${apiUrl}/questionnaires/${questionnaire.poguesId}/csv`}
+                >
+                  <AttachFileIcon></AttachFileIcon>
+                  <Typography variant="body2">
+                    {intl.formatMessage({
+                      id: "questionnaire_schema",
+                    })}
+                  </Typography>
+                </Button>
+              </Typography>
             </FormControl>
           </Grid>
 
