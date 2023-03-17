@@ -14,16 +14,14 @@ if (getEnvVar("VITE_LOCALE")) {
   locale = getEnvVar("VITE_LOCALE");
 }
 
-const notifyFunction = vi.fn();
+const notifySpy = vi.fn();
 
 const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
   return (
     <ThemeProvider theme={appTheme}>
       <IntlProvider messages={getMessages(locale)} locale={locale}>
         <SnackbarProvider maxSnack={3}>
-          <NotifierProvider notify={notifyFunction}>
-            {children}
-          </NotifierProvider>
+          <NotifierProvider notify={notifySpy}>{children}</NotifierProvider>
         </SnackbarProvider>
       </IntlProvider>
     </ThemeProvider>
@@ -36,4 +34,4 @@ const renderWithProviders = (
 ) => render(ui, { wrapper: AllTheProviders, ...options });
 
 export * from "@testing-library/react";
-export { renderWithProviders, notifyFunction };
+export { renderWithProviders, notifySpy };

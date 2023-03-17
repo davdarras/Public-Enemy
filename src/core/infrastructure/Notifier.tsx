@@ -61,7 +61,7 @@ export const useNotifier = (): NotifierPort => {
 
   /**
    * global notification method
-   * @param message notify message
+   * used to inject test context
    */
   const { notify: notifyContext } = useContext(NotifierContext);
 

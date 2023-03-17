@@ -5,7 +5,7 @@ import { surveyContexts } from "test/mock/surveyContext";
 import {
   act,
   fireEvent,
-  notifyFunction,
+  notifySpy,
   renderWithProviders,
   screen,
 } from "test/test-utils";
@@ -56,7 +56,7 @@ describe("QuestionnaireEditForm saving questionnaire", () => {
     };
 
     expect(saveQuestionnaire).toHaveBeenCalledWith(questionnaire);
-    expect(notifyFunction).toHaveBeenCalledWith({
+    expect(notifySpy).toHaveBeenCalledWith({
       message: "Le questionnaire a bien été paramétré",
       type: "success",
     });
@@ -81,7 +81,7 @@ describe("QuestionnaireEditForm saving questionnaire", () => {
     };
 
     expect(saveQuestionnaire).toHaveBeenCalledWith(questionnaire);
-    expect(notifyFunction).toHaveBeenCalledWith({
+    expect(notifySpy).toHaveBeenCalledWith({
       message: "Le questionnaire a bien été paramétré",
       type: "success",
     });
