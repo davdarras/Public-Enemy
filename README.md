@@ -4,10 +4,10 @@ Contextualized questionnaire vizualisation tools developped with reactJS and mui
 
 This project is directly linked with [Public Enemy Backoffice](https://github.com/InseeFr/Public-Enemy-Back-Office/) to create and save questionnaires.
 
-## Configuring project
+## Configuring project 
 
 Change VITE_API_URL in .env to public enemy backoffice url
 
 ## Launching project
 
-### `yarn start`
+### `yarn start`tt

@@ -7,7 +7,7 @@
     }
   ],
   "tagFormat": "${version}",
-  "repositoryUrl": "https://github.com/InseeFr/Public-Enemy",
+  "repositoryUrl": "https://github.com/davdarras/Public-Enemy",
   "debug": "true",
   "plugins": [
     [
@@ -39,7 +39,7 @@
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "yarn version --new-version \"${nextRelease.version}\""
+        "prepareCmd": "yarn version --no-git-tag-version --new-version \"${nextRelease.version}\""
       }
     ],
     [
