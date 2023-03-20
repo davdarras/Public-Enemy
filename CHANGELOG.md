@@ -6,6 +6,14 @@
 ### Bug Fixes
 
 * plop2 ([75bbf54](https://github.com/davdarras/Public-Enemy/commit/75bbf54b3703ec416a05768d60fa99076e9895e5))
+* test ci ([62ef52d](https://github.com/davdarras/Public-Enemy/commit/62ef52d58a6d0ae38d430dcf00c25152de43e04f))
+
+## [1.0.0-beta.3](https://github.com/davdarras/Public-Enemy/compare/1.0.0-beta.2...1.0.0-beta.3) (2023-03-20)
+
+
+### Bug Fixes
+
+* plop2 ([75bbf54](https://github.com/davdarras/Public-Enemy/commit/75bbf54b3703ec416a05768d60fa99076e9895e5))
 
 ## [1.0.0-beta.2](https://github.com/davdarras/Public-Enemy/compare/1.0.0-beta.1...1.0.0-beta.2) (2023-03-20)
 
