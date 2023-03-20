@@ -1,5 +1,12 @@
 # Semantic Versioning Changelog
 
+## [2.0.0-beta.3](https://github.com/davdarras/Public-Enemy/compare/2.0.0-beta.2...2.0.0-beta.3) (2023-03-20)
+
+
+### Features
+
+* add release ([df105ee](https://github.com/davdarras/Public-Enemy/commit/df105eeee343ffa07ebd6f76e887b6b0c7917832))
+
 ## [2.0.0-beta.2](https://github.com/davdarras/Public-Enemy/compare/2.0.0-beta.1...2.0.0-beta.2) (2023-03-20)
 
 
