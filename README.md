@@ -10,4 +10,4 @@ Change VITE_API_URL in .env to public enemy backoffice url
 
 ## Launching project
 
-### `yarn start`
+### `yarn start`tt
