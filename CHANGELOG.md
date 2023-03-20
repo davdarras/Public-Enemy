@@ -1,5 +1,12 @@
 # Semantic Versioning Changelog
 
+## [1.0.0-beta.4](https://github.com/davdarras/Public-Enemy/compare/1.0.0-beta.3...1.0.0-beta.4) (2023-03-20)
+
+
+### Bug Fixes
+
+* test ci ([656e236](https://github.com/davdarras/Public-Enemy/commit/656e236aafe13cabedd4aca495096522cc5c63f0))
+
 ## [1.0.0-beta.3](https://github.com/davdarras/Public-Enemy/compare/1.0.0-beta.2...1.0.0-beta.3) (2023-03-20)
 
 
