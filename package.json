@@ -4,7 +4,7 @@
   "description": "Check and test questionnaire models",
   "repository": {
     "type": "git",
-    "url": "https://github.com/InseeFr/Public-Enemy.git"
+    "url": "https://github.com/davdarras/Public-Enemy.git"
   },
   "author": "INSEE (http://www.insee.fr)",
   "license": "MIT",
