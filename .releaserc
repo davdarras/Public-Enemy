@@ -7,7 +7,7 @@
     }
   ],
   "tagFormat": "${version}",
-  "repositoryUrl": "https://github.com/InseeFr/Public-Enemy",
+  "repositoryUrl": "https://github.com/davdarras/Public-Enemy",
   "debug": "true",
   "plugins": [
     [
